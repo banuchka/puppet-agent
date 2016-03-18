@@ -1,9 +1,9 @@
-component "rubygem-deep-merge" do |pkg, settings, platform|
-  pkg.version "1.0.1"
-  pkg.md5sum "6f30bc4727f1833410f6a508304ab3c1"
-  pkg.url "https://rubygems.global.ssl.fastly.net/gems/deep_merge-#{pkg.get_version}.gem"
+component "ruby-msgpack" do |pkg, settings, platform|
+  pkg.version "0.7.4"
+  pkg.md5sum "50a2c1b66982b426d67a83f56f4bc0e2"
+  pkg.url "https://rubygems.global.ssl.fastly.net/gems/msgpack-0.7.4.gem"
 
-  pkg.replaces "pe-rubygem-deep-merge"
+  pkg.replaces 'pe-ruby-msgpack'
 
   pkg.build_requires "ruby"
 
@@ -18,6 +18,6 @@ component "rubygem-deep-merge" do |pkg, settings, platform|
   pkg.environment "RUBYLIB" => "#{settings[:ruby_vendordir]}:$$RUBYLIB"
 
   pkg.install do
-    ["#{settings[:gem_install]} deep_merge-#{pkg.get_version}.gem"]
+    ["#{settings[:gem_install]} msgpack-0.7.4.gem"]
   end
 end

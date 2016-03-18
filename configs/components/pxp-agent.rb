@@ -1,8 +1,9 @@
 component "pxp-agent" do |pkg, settings, platform|
   pkg.load_from_json('configs/components/pxp-agent.json')
 
-  toolchain = "-DCMAKE_TOOLCHAIN_FILE=/opt/pl-build-tools/pl-build-toolchain.cmake"
-  cmake = "/opt/pl-build-tools/bin/cmake"
+  #toolchain = "-DCMAKE_TOOLCHAIN_FILE=/opt/pl-build-tools/pl-build-toolchain.cmake"
+  toolchain = ""
+  cmake = "/usr/bin/cmake"
   pkg.environment "PATH" => "#{settings[:bindir]}:/opt/pl-build-tools/bin:$$PATH"
 
   pkg.build_requires "openssl"
@@ -20,9 +21,9 @@ component "pxp-agent" do |pkg, settings, platform|
     # PCP-87: If we build with -O3, solaris segfaults due to something in std::vector
     special_flags = "-DCMAKE_CXX_FLAGS_RELEASE='-O2 -DNDEBUG'"
   else
-    pkg.build_requires "pl-gcc"
-    pkg.build_requires "pl-cmake"
-    pkg.build_requires "pl-boost"
+    pkg.build_requires "gcc"
+    pkg.build_requires "cmake"
+    pkg.build_requires "boost-devel"
   end
 
   pkg.configure do

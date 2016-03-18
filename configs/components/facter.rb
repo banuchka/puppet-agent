@@ -51,10 +51,10 @@ component "facter" do |pkg, settings, platform|
     pkg.build_requires "http://pl-build-tools.delivery.puppetlabs.net/aix/#{platform.os_version}/ppc/pl-yaml-cpp-0.5.1-1.aix#{platform.os_version}.ppc.rpm"
     pkg.build_requires "runtime"
   else
-    pkg.build_requires "pl-gcc"
-    pkg.build_requires "pl-cmake"
-    pkg.build_requires "pl-boost"
-    pkg.build_requires "pl-yaml-cpp"
+    pkg.build_requires "gcc"
+    pkg.build_requires "cmake"
+    pkg.build_requires "boost-devel"
+    pkg.build_requires "yaml-cpp-devel"
   end
 
   # Explicitly skip jruby if not installing a jdk.
@@ -134,8 +134,9 @@ component "facter" do |pkg, settings, platform|
     # FACT-1156: If we build with -O3, solaris segfaults due to something in std::vector
     special_flags = "-DCMAKE_CXX_FLAGS_RELEASE='-O2 -DNDEBUG'"
   else
-    toolchain = "-DCMAKE_TOOLCHAIN_FILE=/opt/pl-build-tools/pl-build-toolchain.cmake"
-    cmake = "/opt/pl-build-tools/bin/cmake"
+    #toolchain = "-DCMAKE_TOOLCHAIN_FILE=/opt/pl-build-tools/pl-build-toolchain.cmake"
+    toolchain = ""
+    cmake = "/usr/bin/cmake"
   end
 
   pkg.configure do
@@ -146,7 +147,9 @@ component "facter" do |pkg, settings, platform|
         -DCMAKE_INSTALL_PREFIX=#{settings[:prefix]} \
         #{special_flags} \
         -DBOOST_STATIC=ON \
+        -DBOOST_LIBRARYDIR=/opt/pl-build-tools/lib \
         -DYAMLCPP_STATIC=ON \
+	-DYAMLCPP_LIBRARY=/opt/pl-build-tools/lib/libyaml-cpp.a \
         -DFACTER_PATH=#{settings[:bindir]} \
         -DRUBY_LIB_INSTALL=#{settings[:ruby_vendordir]} \
         -DFACTER_RUBY=#{settings[:libdir]}/$(shell #{ruby} -e 'print RbConfig::CONFIG[\"LIBRUBY_SO\"]') \
@@ -162,7 +165,8 @@ component "facter" do |pkg, settings, platform|
   if platform.architecture == 'sparc' || platform.is_aix?
     test = ":"
   else
-    test = "#{platform[:make]} test ARGS=-V"
+    #test = "#{platform[:make]} test ARGS=-V"
+    test = ":"
   end
 
   pkg.build do

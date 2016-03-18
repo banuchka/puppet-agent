@@ -1,7 +1,7 @@
 component "libxslt" do |pkg, settings, platform|
   pkg.version "1.1.28"
   pkg.md5sum "9667bf6f9310b957254fdcf6596600b7"
-  pkg.url "http://buildsources.delivery.puppetlabs.net/#{pkg.get_name}-#{pkg.get_version}.tar.gz"
+  pkg.url "http://xmlsoft.org/sources/#{pkg.get_name}-#{pkg.get_version}.tar.gz"
 
   pkg.build_requires "libxml2"
 
@@ -15,7 +15,7 @@ component "libxslt" do |pkg, settings, platform|
     # Configure on Solaris incorrectly passes flags to ld
     pkg.apply_patch 'resources/patches/libxslt/disable-version-script.patch'
   elsif !platform.is_osx?
-    pkg.build_requires "pl-gcc"
+    pkg.build_requires "gcc"
     pkg.build_requires "make"
     pkg.environment "LDFLAGS" => settings[:ldflags]
     pkg.environment "CFLAGS" => settings[:cflags]

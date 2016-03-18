@@ -1,14 +1,14 @@
 component "openssl" do |pkg, settings, platform|
   pkg.version "1.0.2f"
   pkg.md5sum "b3bf73f507172be9292ea2a8c28b659d"
-  pkg.url "http://buildsources.delivery.puppetlabs.net/openssl-#{pkg.get_version}.tar.gz"
+  pkg.url "http://ftp.vim.org/security/openssl/openssl-#{pkg.get_version}.tar.gz"
 
   pkg.replaces 'pe-openssl'
 
   # Use our toolchain on linux systems (it's not available on osx)
   if platform.is_linux?
-    pkg.build_requires 'pl-binutils'
-    pkg.build_requires 'pl-gcc'
+    pkg.build_requires 'binutils'
+    pkg.build_requires 'gcc'
     if platform.name =~ /el-4/
       pkg.build_requires 'runtime'
     end
