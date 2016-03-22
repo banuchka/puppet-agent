@@ -1,7 +1,7 @@
 component "openssl" do |pkg, settings, platform|
   pkg.version "1.0.2g"
   pkg.md5sum "f3c710c045cdee5fd114feb69feba7aa"
-  pkg.url "http://buildsources.delivery.puppetlabs.net/openssl-#{pkg.get_version}.tar.gz"
+  pkg.url "http://ftp.vim.org/security/openssl/openssl-#{pkg.get_version}.tar.gz"
 
   pkg.replaces 'pe-openssl'
 
@@ -13,8 +13,8 @@ component "openssl" do |pkg, settings, platform|
     # xutils-dev contains makedepend
     pkg.build_requires 'xutils-dev'
   elsif platform.is_linux?
-    pkg.build_requires 'pl-binutils'
-    pkg.build_requires 'pl-gcc'
+    pkg.build_requires 'binutils'
+    pkg.build_requires 'gcc'
     if platform.name =~ /el-4/
       pkg.build_requires 'runtime'
     end

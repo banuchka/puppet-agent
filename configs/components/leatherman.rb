@@ -18,9 +18,9 @@ component "leatherman" do |pkg, settings, platform|
     pkg.build_requires "http://pl-build-tools.delivery.puppetlabs.net/aix/#{platform.os_version}/ppc/pl-cmake-3.2.3-2.aix#{platform.os_version}.ppc.rpm"
     pkg.build_requires "http://pl-build-tools.delivery.puppetlabs.net/aix/#{platform.os_version}/ppc/pl-boost-1.58.0-1.aix#{platform.os_version}.ppc.rpm"
   else
-    pkg.build_requires "pl-gcc"
-    pkg.build_requires "pl-cmake"
-    pkg.build_requires "pl-boost"
+    pkg.build_requires "gcc"
+    pkg.build_requires "cmake"
+    pkg.build_requires "boost-devel"
   end
 
   # curl is only used for compute clusters (GCE, EC2); so rpm, deb, and Windows
@@ -38,7 +38,7 @@ component "leatherman" do |pkg, settings, platform|
   # a toolchain is not currently required for OSX since we're building with clang.
   if platform.is_osx?
     toolchain = ""
-    cmake = "/usr/local/bin/cmake"
+    cmake = "/usr/bin/cmake"
   elsif platform.is_huaweios?
     ruby = "#{settings[:host_ruby]} -r#{settings[:datadir]}/doc/rbconfig.rb"
     toolchain = "-DCMAKE_TOOLCHAIN_FILE=/opt/pl-build-tools/#{settings[:platform_triple]}/pl-build-toolchain.cmake"
@@ -54,8 +54,8 @@ component "leatherman" do |pkg, settings, platform|
     # FACT-1156: If we build with -O3, solaris segfaults due to something in std::vector
     special_flags = "-DCMAKE_CXX_FLAGS_RELEASE='-O2 -DNDEBUG'"
   else
-    toolchain = "-DCMAKE_TOOLCHAIN_FILE=/opt/pl-build-tools/pl-build-toolchain.cmake"
-    cmake = "/opt/pl-build-tools/bin/cmake"
+    #toolchain = "-DCMAKE_TOOLCHAIN_FILE=/opt/pl-build-tools/pl-build-toolchain.cmake"
+    cmake = "/usr/bin/cmake"
 
     if platform.is_cisco_wrlinux?
       special_flags = "-DLEATHERMAN_USE_LOCALES=OFF"
@@ -69,6 +69,7 @@ component "leatherman" do |pkg, settings, platform|
         -DCMAKE_PREFIX_PATH=#{settings[:prefix]} \
         -DCMAKE_INSTALL_PREFIX=#{settings[:prefix]} \
         -DLEATHERMAN_SHARED=TRUE \
+	-DBOOST_ROOT=/opt/pl-build-tools \
         #{special_flags} \
         -DBOOST_STATIC=ON \
         -DLEATHERMAN_USE_CURL=#{use_curl} \

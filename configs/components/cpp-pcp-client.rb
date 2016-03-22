@@ -1,7 +1,7 @@
 component "cpp-pcp-client" do |pkg, settings, platform|
   pkg.load_from_json('configs/components/cpp-pcp-client.json')
-  cmake = "/opt/pl-build-tools/bin/cmake"
-  toolchain = "-DCMAKE_TOOLCHAIN_FILE=/opt/pl-build-tools/pl-build-toolchain.cmake"
+  cmake = "/usr/bin/cmake"
+  #toolchain = "-DCMAKE_TOOLCHAIN_FILE=/opt/pl-build-tools/pl-build-toolchain.cmake"
   pkg.environment "PATH" => "#{settings[:bindir]}:/opt/pl-build-tools/bin:$$PATH"
 
   platform_flags = ''
@@ -25,9 +25,9 @@ component "cpp-pcp-client" do |pkg, settings, platform|
     cmake = "/opt/pl-build-tools/i386-pc-solaris2.#{platform.os_version}/bin/cmake"
     toolchain = "-DCMAKE_TOOLCHAIN_FILE=/opt/pl-build-tools/#{settings[:platform_triple]}/pl-build-toolchain.cmake"
   else
-    pkg.build_requires "pl-gcc"
-    pkg.build_requires "pl-cmake"
-    pkg.build_requires "pl-boost"
+    pkg.build_requires "gcc"
+    pkg.build_requires "cmake"
+    pkg.build_requires "boost-devel"
 
     if platform.is_cisco_wrlinux?
       platform_flags = "-DLEATHERMAN_USE_LOCALES=OFF"

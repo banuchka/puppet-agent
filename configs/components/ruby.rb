@@ -1,7 +1,7 @@
 component "ruby" do |pkg, settings, platform|
   pkg.version "2.1.8"
   pkg.md5sum "091b62f0a9796a3c55de2a228a0e6ef3"
-  pkg.url "http://buildsources.delivery.puppetlabs.net/ruby-#{pkg.get_version}.tar.gz"
+  pkg.url "https://cache.ruby-lang.org/pub/ruby/2.1/ruby-#{pkg.get_version}.tar.gz"
 
   pkg.replaces 'pe-ruby'
   pkg.replaces 'pe-ruby-mysql'

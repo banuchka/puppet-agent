@@ -9,7 +9,7 @@ component "runtime" do |pkg, settings, platform|
     pkg.build_requires "http://pl-build-tools.delivery.puppetlabs.net/aix/#{platform.os_version}/ppc/pl-gcc-5.2.0-1.aix#{platform.os_version}.ppc.rpm"
     libdir = "/opt/pl-build-tools/lib/gcc/powerpc-ibm-aix#{platform.os_version}.0.0/5.2.0/"
   else
-    pkg.build_requires "pl-gcc"
+    pkg.build_requires "gcc"
   end
 
   if platform.architecture == "sparc" || platform.name =~ /huaweios/
